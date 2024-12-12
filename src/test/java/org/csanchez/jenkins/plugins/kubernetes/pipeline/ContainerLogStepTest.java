@@ -31,4 +31,12 @@ public class ContainerLogStepTest extends AbstractKubernetesPipelineTest {
         r.assertLogContains("INFO: Handshaking", b);
         r.assertLogContains("INFO: Connected", b);
     }
+
+    @Test
+    public void containerStatusLogs() throws Exception {
+        assertNotNull(createJobThenScheduleRun());
+        r.assertBuildStatusSuccess(r.waitForCompletion(b));
+        r.assertLogContains("Container [shell] waiting", b);
+        r.assertLogContains("Container [jnlp] waiting", b);
+    }
 }
